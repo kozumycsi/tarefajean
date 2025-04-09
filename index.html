@@ -34,7 +34,7 @@
             border-color: #ff6f91; 
             outline: none;
         }
-        input[type="submit"] {
+        input[type="submit"], .btn-cadastro {
             background-color: #ff6f91; 
             color: white;
             border: none;
@@ -42,8 +42,10 @@
             padding: 10px;
             cursor: pointer;
             transition: background-color 0.3s;
+            width: 100%;
+            margin: 10px 0;
         }
-        input[type="submit"]:hover {
+        input[type="submit"]:hover, .btn-cadastro:hover {
             background-color: #ff4a7c; 
         }
         .underlineHover {
@@ -60,14 +62,15 @@
 <body>
     <div class="wrapper fadeInDown">
         <div id="formContent">
-            <a class="underlineHover" href="../tarefa/cadastro.html">Login</a>
+            <h2>Login</h2>
             <form>
                 <input type="text" id="login" class="fadeIn second" name="login" placeholder="Login" required>
                 <input type="password" id="password" class="fadeIn third" name="password" placeholder="Senha" required>
-                <input type="submit" class="fadeIn fourth" value="Log In">
+                <input type="submit" class="fadeIn fourth" value="Login" onclick="window.location.href='pagina-destino.html'">
             </form>
+            <button class="btn-cadastro" onclick="window.location.href='cadastro.html'">Cadastrar</button>
             <div id="formFooter">
-                <a class="underlineHover" href="../tarefa/senha.html">Esqueceu a Senha?</a>
+                <a class="underlineHover" href="recuperacao.html">Esqueceu a Senha?</a>
             </div>
         </div>
     </div>
