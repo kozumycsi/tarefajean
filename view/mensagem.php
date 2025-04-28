@@ -1,16 +1,18 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-if (!empty($_SESSION['mensagem'])) {
-    echo "<div style='
-        padding: 15px; 
-        background-color: #f0f0f0; 
-        border: 1px solid #ccc; 
-        border-radius: 5px; 
-        margin-bottom: 20px; 
-        text-align: center;
-        font-weight: bold;
-    '>{$_SESSION['mensagem']}</div>";
+if (isset($_SESSION['mensagem'])) {
+    echo "<div style='position:fixed;
+    top:10px;
+    left:50%;
+    transform:translateX(-50%);
+    background-color:pink;
+    padding:10px;border-radius:10px;
+    font-weight:bold;
+    z-index:9999;
+    '>" . $_SESSION['mensagem'] . "</div>";
     unset($_SESSION['mensagem']);
 }
 ?>

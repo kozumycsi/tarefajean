@@ -1,8 +1,7 @@
 <?php
+require '../service/conexao.php';
 
-require "../service/conexao.php";
-
-function login($email, $password) {
+function verificarLogin($email, $password) {
     $conn = new usePDO();
     $instance = $conn->getInstance();
 
@@ -11,10 +10,10 @@ function login($email, $password) {
     $stmt->execute([$email]);
     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($usuario && password_verify($password, $usuario['senha'])) {
-        return $usuario;
+    if (password_verify($password, $usuario['senha'])) {
+        return true;
+    } else {
+        return false;
     }
-
-    return false;
 }
 ?>

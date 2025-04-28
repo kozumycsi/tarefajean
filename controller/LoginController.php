@@ -1,23 +1,43 @@
 <?php
-
 require "../model/LoginModel.php";
-session_start();
+ 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    session_start();
+ 
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $loginResult = verificarLogin($email, $password);
 
-if ($_POST) {
-    $email = $_POST["email"];
-    $password = $_POST["password"];
+    if (!$loginResult) {
 
-    $result = login($email, $password);
-
-    if ($result) {
-        $_SESSION['usuario_id'] = $result['id'];
-        $_SESSION['mensagem'] = "Login realizado com sucesso!";
-        header("Location: ../view/dashboard.php");
+        $_SESSION['mensagemerro'] = "Email ou senha incorretos!";
+        $_SESSION['mensagem'] = "<div style='position:fixed;
+        top:10px;
+        left:50%;
+        transform:translateX(-50%);
+        background-color:pink;
+        padding:10px;border-radius:10px;
+        font-weight:bold;
+        z-index:9999;
+        '>" . $_SESSION['mensagemerro'] . "</div>";
+        header('Location: ../view/index.php');
         exit();
     } else {
-        $_SESSION['mensagem'] = "Email ou senha incorretos!";
-        header("Location: ../view/login.php");
+        $_SESSION['mensagemerro'] = "Login feito com sucesso!";
+        $_SESSION['mensagem'] = "<div style='position:fixed;
+        top:10px;
+        left:50%;
+        transform:translateX(-50%);
+        background-color:pink;
+        padding:10px;border-radius:10px;
+        font-weight:bold;
+        z-index:9999;
+        '>" . $_SESSION['mensagemerro'] . "</div>";
+        header('Location: ../view/paginainicial.php');
         exit();
     }
+} else {
+    header('Location: ../view/index.php');
+    exit();
 }
 ?>

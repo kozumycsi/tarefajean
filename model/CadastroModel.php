@@ -9,11 +9,10 @@ function register($username, $email, $password){
     $sql = "INSERT INTO pessoa (nome, email)VALUES (?, ?)";
     $stmt = $instance->prepare($sql);
     $stmt->execute([$username, $email]);
-    
     $idPessoa = $instance->lastInsertId();
     $sql = "INSERT INTO usuario (email, senha, pessoa_id) VALUES (?, ?, ?)";
     $stmt = $instance->prepare($sql);
-    $stmt->execute([$email, $password, $idPessoa]);
+    $stmt->execute([$email, $hashed_password, $idPessoa]);
  
     $result = $stmt->rowCount();
     return $idPessoa; 

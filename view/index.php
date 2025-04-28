@@ -1,7 +1,10 @@
 <?php
-session_start();
+if (isset($_SESSION['mensagem'])) {
+    echo $_SESSION['mensagem'] ;
+}
+require 'mensagem.php';
 ?>
-
+ 
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -10,7 +13,7 @@ session_start();
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <style>
         body {
-            background-color: #ffeef8; 
+            background-color: #ffeef8;
         }
         .wrapper {
             display: flex;
@@ -19,7 +22,7 @@ session_start();
             height: 100vh;
         }
         #formContent {
-            background: #fff; 
+            background: #fff;
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -30,16 +33,16 @@ session_start();
             width: 100%;
             padding: 10px;
             margin: 10px 0;
-            border: 1px solid #f2a6c0; 
+            border: 1px solid #f2a6c0;
             border-radius: 5px;
             transition: border-color 0.3s;
         }
         input[type="text"]:focus, input[type="password"]:focus {
-            border-color: #ff6f91; 
+            border-color: #ff6f91;
             outline: none;
         }
         input[type="submit"], .btn-cadastro {
-            background-color: #ff6f91; 
+            background-color: #ff6f91;
             color: white;
             border: none;
             border-radius: 5px;
@@ -50,7 +53,7 @@ session_start();
             margin: 10px 0;
         }
         input[type="submit"]:hover, .btn-cadastro:hover {
-            background-color: #ff4a7c; 
+            background-color: #ff4a7c;
         }
         .text-redirect {
             text-decoration: none;
@@ -64,25 +67,20 @@ session_start();
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-
-    <?php include "mensagem.php"; ?>
-
     <div class="wrapper fadeInDown">
         <div id="formContent">
             <h2>Login</h2>
-            <form method="POST" action="LoginController.php">
+            <form method="POST" action="/Aslan/tarefajean/controller/LoginController.php">
                 <input type="text" id="email" class="fadeIn second" name="email" placeholder="Email" required>
                 <input type="password" id="password" class="fadeIn third" name="password" placeholder="Senha" required>
                 <input type="submit" class="fadeIn fourth" value="Entrar">
             </form>
-
             <button class="btn-cadastro" onclick="window.location.href='cadastro.php'">Cadastrar</button>
-
             <div id="formFooter">
                 <a class="text-redirect" style="color: #ff6f91;" href="esqueceusenha.php">Esqueceu a Senha?</a>
             </div>
         </div>
     </div>
-
+ 
 </body>
 </html>
