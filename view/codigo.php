@@ -46,6 +46,20 @@
         input[type="submit"]:hover {
             background-color: #ff4a7c; 
         }
+        input[type="submit"], .btn-cadastro {
+            background-color: #ff6f91; 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin: 10px 0;
+        }
+        input[type="submit"]:hover, .btn-cadastro:hover {
+            background-color: #ff4a7c; 
+        }
         .underlineHover {
             text-decoration: none;
             color: #ff6f91;
@@ -63,11 +77,8 @@
             <h2>Confirmar Código</h2>
             <form>
                 <input type="text" id="codigo" class="fadeIn second" name="codigo" placeholder="Digite o Código" required>
-                <input type="submit" class="fadeIn third" value="Confirmar" onclick="window.location.href='nova-senha.html'">
             </form>
-            <div id="formFooter">
-                <a class="underlineHover" href="index.php">Voltar ao Login</a>
-            </div>
+            <button class="btn-cadastro" onclick="window.location.href='trocadesenha.php'">Confirmar</button>
         </div>
     </div>
 </body>

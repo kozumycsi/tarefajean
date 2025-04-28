@@ -22,7 +22,7 @@
             text-align: center;
             width: 300px;
         }
-        input[type="text"], input[type="email"] {
+        input[type="password"] {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
@@ -30,7 +30,7 @@
             border-radius: 5px;
             transition: border-color 0.3s;
         }
-        input[type="text"]:focus, input[type="email"]:focus {
+        input[type="password"]:focus {
             border-color: #ff6f91;
             outline: none;
         }
@@ -42,20 +42,6 @@
             padding: 10px;
             cursor: pointer;
             transition: background-color 0.3s;
-        }
-        input[type="submit"], .btn-cadastro {
-            background-color: #ff6f91; 
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            width: 100%;
-            margin: 10px 0;
-        }
-        input[type="submit"]:hover, .btn-cadastro:hover {
-            background-color: #ff4a7c; 
         }
         input[type="submit"]:hover {
             background-color: #ff4a7c; 
@@ -74,11 +60,12 @@
 <body>
     <div class="wrapper fadeInDown">
         <div id="formContent">
-            <h2>Recuperar Senha</h2>
+            <h2>Nova Senha</h2>
             <form>
-                <input type="email" id="email" class="fadeIn second" name="email" placeholder="Digite seu Email" required>
+                <input type="password" id="senha" class="fadeIn second" name="senha" placeholder="Digite a Nova Senha" required>
+                <input type="password" id="confirmar_senha" class="fadeIn third" name="confirmar_senha" placeholder="Confirme a Nova Senha" required>
+                <input type="submit" class="fadeIn fourth" value="Salvar" onclick="window.location.href='index.html'">
             </form>
-            <button class="btn-cadastro" onclick="window.location.href='codigo.php'">Continuar</button>
             <div id="formFooter">
                 <a class="underlineHover" href="index.php">Voltar ao Login</a>
             </div>
