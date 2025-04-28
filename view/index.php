@@ -71,7 +71,7 @@
             </form>
             <button class="btn-cadastro" onclick="window.location.href='cadastro.php'">Cadastrar</button>
             <div id="formFooter">
-                <a class="text-redirect" style="color: #ff6f91;" onclick="window.location.href='senha.php'">Esqueceu a Senha?</a>
+                <a class="text-redirect" style="color: #ff6f91;" onclick="window.location.href='esqueceusenha.php'">Esqueceu a Senha?</a>
             </div>
         </div>
     </div>
