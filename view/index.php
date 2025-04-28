@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -60,20 +64,25 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
+
+    <?php include "mensagem.php"; ?>
+
     <div class="wrapper fadeInDown">
         <div id="formContent">
             <h2>Login</h2>
-            <form>
-                <input type="text" id="login" class="fadeIn second" name="login" placeholder="Email" required>
+            <form method="POST" action="LoginController.php">
+                <input type="text" id="email" class="fadeIn second" name="email" placeholder="Email" required>
                 <input type="password" id="password" class="fadeIn third" name="password" placeholder="Senha" required>
-                <input type="password" id="password" class="fadeIn third" name="password" placeholder="Confirmar senha" required>
-                <input type="submit" class="fadeIn fourth" value="Login" onclick="window.location.href='pagina-destino.html'">
+                <input type="submit" class="fadeIn fourth" value="Entrar">
             </form>
+
             <button class="btn-cadastro" onclick="window.location.href='cadastro.php'">Cadastrar</button>
+
             <div id="formFooter">
-                <a class="text-redirect" style="color: #ff6f91;" onclick="window.location.href='esqueceusenha.php'">Esqueceu a Senha?</a>
+                <a class="text-redirect" style="color: #ff6f91;" href="esqueceusenha.php">Esqueceu a Senha?</a>
             </div>
         </div>
     </div>
+
 </body>
 </html>
