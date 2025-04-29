@@ -1,86 +1,224 @@
 <?php
-if (isset($_SESSION['mensagem'])) {
-    echo $_SESSION['mensagem'] ;
+// Incluir arquivos de conexão e funções
+require_once '../service/conexao.php';
+require_once '../model/funcoes.php';
+$conexao = instancia();
+// Inicializar variáveis
+$emailSelecionado = null;
+$emails = buscarEmails($conexao);
+
+// Verificar se um email foi selecionado
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $emailSelecionado = buscarEmailPorId($conexao, $id);
+    
+    // Marcar como lido se encontrado
+    if ($emailSelecionado) {
+        marcarComoLido($conexao, $id);
+    }
 }
-require 'mensagem.php';
 ?>
- 
+
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <title>Interface de Email</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <style>
-        body {
-            background-color: #ffeef8;
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
         }
-        .wrapper {
+        
+        .email-container {
+            height: calc(100vh - 56px);
+        }
+        
+        .email-list {
+            height: 100%;
+            overflow-y: auto;
+            background-color: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+        }
+        
+        .email-detail {
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .email-item {
+            cursor: pointer;
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .email-item:hover {
+            background-color: #f1f3f5;
+        }
+        
+        .email-item.active {
+            background-color: #0d6efd;
+            color: white;
+        }
+        
+        .email-item.active .text-muted {
+            color: rgba(255, 255, 255, 0.75) !important;
+        }
+        
+        .email-item.unread {
+            font-weight: bold;
+        }
+        
+        .unread-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #0d6efd;
+            margin-right: 8px;
+        }
+        
+        .empty-state {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: 100%;
+            color: #6c757d;
         }
-        #formContent {
-            background: #fff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 300px;
-        }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #f2a6c0;
-            border-radius: 5px;
-            transition: border-color 0.3s;
-        }
-        input[type="text"]:focus, input[type="password"]:focus {
-            border-color: #ff6f91;
-            outline: none;
-        }
-        input[type="submit"], .btn-cadastro {
-            background-color: #ff6f91;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            width: 100%;
-            margin: 10px 0;
-        }
-        input[type="submit"]:hover, .btn-cadastro:hover {
-            background-color: #ff4a7c;
-        }
-        .text-redirect {
-            text-decoration: none;
-            color: #ff6f91;
-        }
-        .text-redirect:hover {
-            text-decoration: underline;
+        
+        @media (max-width: 767.98px) {
+            .email-container {
+                height: auto;
+            }
+            
+            .email-list, .email-detail {
+                height: auto;
+                max-height: 100vh;
+            }
         }
     </style>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div class="wrapper fadeInDown">
-        <div id="formContent">
-            <h2>Login</h2>
-            <form method="POST" action="/Aslan/tarefajean/controller/LoginController.php">
-                <input type="text" id="email" class="fadeIn second" name="email" placeholder="Email" required>
-                <input type="password" id="password" class="fadeIn third" name="password" placeholder="Senha" required>
-                <input type="submit" class="fadeIn fourth" value="Entrar">
-            </form>
-            <button class="btn-cadastro" onclick="window.location.href='cadastro.php'">Cadastrar</button>
-            <div id="formFooter">
-                <a class="text-redirect" style="color: #ff6f91;" href="esqueceusenha.php">Esqueceu a Senha?</a>
+    <!-- Header -->
+    <header class="bg-primary text-white p-3">
+        <h1 class="h4 m-0">Email Dashboard</h1>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container-fluid p-0">
+        <div class="row g-0 email-container">
+            <!-- Email List -->
+            <div class="col-md-4 col-lg-3 email-list">
+                <?php if (empty($emails)): ?>
+                    <div class="text-center p-4 text-muted">
+                        <p>Nenhum email encontrado</p>
+                    </div>
+                <?php else: ?>
+                    <?php foreach ($emails as $email): ?>
+                        <a href="?id=<?php echo $email['id']; ?>" class="text-decoration-none">
+                            <div class="email-item <?php echo ($emailSelecionado && $emailSelecionado['id'] == $email['id']) ? 'active' : ''; ?> <?php echo $email['lido'] ? '' : 'unread'; ?>">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        <div class="d-flex align-items-center mb-1">
+                                            <?php if (!$email['lido']): ?>
+                                                <span class="unread-indicator"></span>
+                                            <?php endif; ?>
+                                            <span><?php echo htmlspecialchars($email['usuario']); ?></span>
+                                        </div>
+                                        <div class="<?php echo ($emailSelecionado && $emailSelecionado['id'] == $email['id']) ? '' : 'text-muted'; ?> small">
+                                            <?php echo htmlspecialchars('Recuperação de senha!'); ?>
+                                        </div>
+                                    </div>
+                                    <small class="<?php echo ($emailSelecionado && $emailSelecionado['id'] == $email['id']) ? '' : 'text-muted'; ?>">
+                                        <?php echo formatarData("Teste"); ?>
+                                    </small>
+                                </div>
+                            </div>
+                        </a>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+
+            <!-- Email Detail -->
+            <div class="col-md-8 col-lg-9 email-detail">
+                <?php if ($emailSelecionado): ?>
+                    <div class="p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h2 class="h4"><?php echo htmlspecialchars("Atualização de Acesso à Conta."); ?></h2>
+                            <span class="text-muted"><?php echo formatarData("Informamos que o acesso à sua conta foi atualizado com sucesso.
+
+Seu novo código de acesso é:
+
+🔐 Código de Acesso: JKL012
+
+Por motivos de segurança, recomendamos que você mantenha este código em local seguro. Em caso de dúvidas ou dificuldades, nossa equipe está pronta para ajudar.
+
+Com cordialidade,  
+Equipe de Atendimento"); ?></span>
+                        </div>
+
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>De:</strong> <?php echo htmlspecialchars($emailSelecionado['usuario']); ?>
+                                    </div>
+                                    <div>
+                                        <span class="badge bg-secondary">Código: <?php echo htmlspecialchars($emailSelecionado['code']); ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text"><?php echo nl2br(htmlspecialchars("Informamos que o acesso à sua conta foi atualizado com sucesso.
+
+Seu novo código de acesso é:
+
+🔐 Código de Acesso: JKL012
+
+Por motivos de segurança, recomendamos que você mantenha este código em local seguro. Em caso de dúvidas ou dificuldades, nossa equipe está pronta para ajudar.
+
+Com cordialidade,  
+Equipe de Atendimento")); ?></p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <h3 class="h5 mb-0">Detalhes do Usuário</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p>
+                                            <strong>Usuário:</strong> <?php echo htmlspecialchars($emailSelecionado['usuario']); ?>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>
+                                            <strong>Código:</strong> <?php echo htmlspecialchars($emailSelecionado['code']); ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <div class="empty-state">
+                        <i class="bi bi-envelope fs-1"></i>
+                        <p>Selecione um email para ver seu conteúdo</p>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
- 
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

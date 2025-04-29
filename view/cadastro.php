@@ -69,7 +69,7 @@
                 <input type="submit" class="fadeIn sixth" value="Cadastre-se">
             </form>
             <div id="formFooter">
-                <a class="underlineHover" href="index.php">Já tem uma conta? Faça login.</a>
+                <a class="underlineHover" href="login.php">Já tem uma conta? Faça login.</a>
             </div>
         </div>
     </div>

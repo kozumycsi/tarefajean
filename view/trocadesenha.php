@@ -67,7 +67,7 @@
                 <input type="submit" class="fadeIn fourth" value="Salvar" onclick="window.location.href='index.html'">
             </form>
             <div id="formFooter">
-                <a class="underlineHover" href="index.php">Voltar ao Login</a>
+                <a class="underlineHover" href="login.php">Voltar ao Login</a>
             </div>
         </div>
     </div>

@@ -1,3 +1,10 @@
+<?php
+if (isset($_SESSION['mensagem'])) {
+    echo $_SESSION['mensagem'] ;
+}
+require 'mensagem.php';
+?>
+ 
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -22,29 +29,20 @@
             text-align: center;
             width: 300px;
         }
-        input[type="text"], input[type="email"] {
+        input[type="text"], input[type="password"] {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
-            border: 1px solid #f2a6c0; 
+            border: 1px solid #f2a6c0;
             border-radius: 5px;
             transition: border-color 0.3s;
         }
-        input[type="text"]:focus, input[type="email"]:focus {
+        input[type="text"]:focus, input[type="password"]:focus {
             border-color: #ff6f91;
             outline: none;
         }
-        input[type="submit"] {
-            background-color: #ff6f91; 
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
         input[type="submit"], .btn-cadastro {
-            background-color: #ff6f91; 
+            background-color: #ff6f91;
             color: white;
             border: none;
             border-radius: 5px;
@@ -55,16 +53,13 @@
             margin: 10px 0;
         }
         input[type="submit"]:hover, .btn-cadastro:hover {
-            background-color: #ff4a7c; 
+            background-color: #ff4a7c;
         }
-        input[type="submit"]:hover {
-            background-color: #ff4a7c; 
-        }
-        .underlineHover {
+        .text-redirect {
             text-decoration: none;
             color: #ff6f91;
         }
-        .underlineHover:hover {
+        .text-redirect:hover {
             text-decoration: underline;
         }
     </style>
@@ -74,15 +69,18 @@
 <body>
     <div class="wrapper fadeInDown">
         <div id="formContent">
-            <h2>Recuperar Senha</h2>
-            <form>
-                <input type="email" id="email" class="fadeIn second" name="email" placeholder="Digite seu Email" required>
+            <h2>Login</h2>
+            <form method="POST" action="/Aslan/tarefajean/controller/LoginController.php">
+                <input type="text" id="email" class="fadeIn second" name="email" placeholder="Email" required>
+                <input type="password" id="password" class="fadeIn third" name="password" placeholder="Senha" required>
+                <input type="submit" class="fadeIn fourth" value="Entrar">
             </form>
-            <button class="btn-cadastro" onclick="window.location.href='codigo.php'">Continuar</button>
+            <button class="btn-cadastro" onclick="window.location.href='cadastro.php'">Cadastrar</button>
             <div id="formFooter">
-                <a class="underlineHover" href="login.php">Voltar ao Login</a>
+                <a class="text-redirect" style="color: #ff6f91;" href="esqueceusenha.php">Esqueceu a Senha?</a>
             </div>
         </div>
     </div>
+ 
 </body>
 </html>
