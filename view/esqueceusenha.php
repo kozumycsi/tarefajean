@@ -78,7 +78,9 @@
             <form>
                 <input type="email" id="email" class="fadeIn second" name="email" placeholder="Digite seu Email" required>
             </form>
-            <button class="btn-cadastro" onclick="window.location.href='codigo.php'">Continuar</button>
+            <form action="index.php" method="post">
+    <button class="btn-cadastro" type="submit">Continuar</button>
+</form>
             <div id="formFooter">
                 <a class="underlineHover" href="login.php">Voltar ao Login</a>
             </div>

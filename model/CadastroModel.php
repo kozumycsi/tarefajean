@@ -16,9 +16,12 @@ function register($username, $email, $password){
     $stmt->execute([$email, $hashed_password, $idPessoa]);
 
     $idPessoa = $instance->lastInsertId();
-    $sql = "INSERT INTO code (email, senha, pessoa_id) VALUES (?, ?, ?)";
+    $code = rand(100000, 999999);
+    $lido = 0;
+    $sql = "INSERT INTO code (username, code, email, userID) VALUES (?, ?, ?, ?)";
     $stmt = $instance->prepare($sql);
-    $stmt->execute([$email, $hashed_password, $idPessoa]);
+    $stmt->execute([$username, $code, $email, $lido, $idPessoa]);
+
  
     $result = $stmt->rowCount();
     return $idPessoa; 
