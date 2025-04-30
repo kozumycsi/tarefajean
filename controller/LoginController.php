@@ -20,7 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         font-weight:bold;
         z-index:9999;
         '>" . $_SESSION['mensagemerro'] . "</div>";
-        header('Location: ../view/index.php');
+        header('Location: ../view/login.php');
+        unset($_SESSION['mensagemerro']);
         exit();
     } else {
         $_SESSION['mensagemerro'] = "Login feito com sucesso!";

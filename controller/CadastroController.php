@@ -17,7 +17,7 @@ if($_POST){
     echo $result;
     if($result){
         echo "Cadastro realizado com sucesso!";
-        header('Location: ../view/index.php');
+        header('Location: ../view/login.php');
     }else{
         echo "Não foi possivel realizar o cadastro.";
         header('Location: ../view/cadastro.php');
