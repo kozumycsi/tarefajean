@@ -7,14 +7,12 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-session_start(); // Start the session
+session_start(); 
 
-$mensagem = ""; // Initialize message
-
+$mensagem = ""; 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $codigo = $_POST["codigo"];
 
-    // Verify if the code exists in the database
     $conn = new usePDO();
     $instance = $conn->getInstance();
 
@@ -26,12 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt && $stmt->rowCount() > 0) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $userID = $row['userID'];
-
-            // Store the userID and code in the session
             $_SESSION['userID'] = $userID;
             $_SESSION['codigo'] = $codigo;
-
-            // Redirect to the password reset page
             header("Location: trocadesenha.php");
             exit();
         } else {

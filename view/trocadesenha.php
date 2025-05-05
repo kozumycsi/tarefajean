@@ -2,21 +2,17 @@
 require_once '../service/conexao.php';
 require_once '../model/funcoes.php';
 
-// Enable error reporting
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-session_start(); // Start the session
+session_start(); 
 
-$mensagem = ""; // Initialize message
+$mensagem = ""; 
 $sucesso = false;
 
-// Check if userID and code are in the session
 if (!isset($_SESSION['userID']) || !isset($_SESSION['codigo'])) {
     $mensagem = "Acesso inválido. Por favor, verifique o código novamente.";
-    // Optionally, redirect back to codigo.php
-    // header("Location: codigo.php");
     exit();
 }
 
@@ -25,16 +21,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $confirmar_senha = $_POST["confirmar_senha"];
 
     if ($senha == $confirmar_senha) {
-        // Hash the password
         $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-
-        // Update the password in the usuario table using the userID from the session
         $conn = new usePDO();
         $instance = $conn->getInstance();
-
-        $userID = $_SESSION['userID']; // Get userID from session
-
-        $sql = "UPDATE usuario SET senha = ? WHERE id = ?"; // Assuming the user table is 'usuario' and the password field is 'senha'
+        $userID = $_SESSION['userID']; 
+        $sql = "UPDATE usuario SET senha = ? WHERE id = ?"; 
         try {
             $stmt = $instance->prepare($sql);
             $stmt->execute([$senha_hash, $userID]);
@@ -122,7 +113,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <p style="color: <?php echo (strpos($mensagem, 'sucesso') !== false) ? 'green' : 'red'; ?>;"><?php echo $mensagem; ?></p>
             <?php endif; ?>
             <?php if (!isset($_SESSION['userID']) || !isset($_SESSION['codigo'])): ?>
-                <!-- Display nothing or a message if the session is not set -->
                 <p>Acesso inválido. Por favor, verifique o código novamente.</p>
             <?php elseif(!$sucesso): ?>
                 <form method="post" action="trocadesenha.php">

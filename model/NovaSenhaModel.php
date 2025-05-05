@@ -6,7 +6,6 @@ function alterarSenha($codigo, $novaSenha) {
     $conn = new usePDO();
     $instance = $conn->getInstance();
 
-    // Primeiro pega o email relacionado ao código
     $sql = "SELECT email FROM codigos WHERE codigo = ?";
     $stmt = $instance->prepare($sql);
     $stmt->execute([$codigo]);
@@ -16,7 +15,6 @@ function alterarSenha($codigo, $novaSenha) {
         $email = $row['email'];
         $hashedPassword = password_hash($novaSenha, PASSWORD_DEFAULT);
 
-        // Atualiza a senha
         $sql = "UPDATE usuario SET senha = ? WHERE email = ?";
         $stmt = $instance->prepare($sql);
         $stmt->execute([$hashedPassword, $email]);

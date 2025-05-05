@@ -1,7 +1,6 @@
 <?php
 require_once '../service/conexao.php';
 
-// Função para buscar todos os emails (códigos)
 function buscarEmails() {
     $conn = new usePDO();
     $instance = $conn->getInstance();
@@ -24,7 +23,6 @@ function buscarEmails() {
     return $emails;
 }
 
-// Função para buscar um email específico pelo ID
 function buscarEmailPorId($id) {
     $conn = new usePDO();
     $instance = $conn->getInstance();
@@ -45,7 +43,6 @@ function buscarEmailPorId($id) {
     return null;
 }
 
-// Função para marcar um email como lido
 function marcarComoLido($id) {
     $conn = new usePDO();
     $instance = $conn->getInstance();
@@ -60,12 +57,11 @@ function marcarComoLido($id) {
     }
 }
 
-// Função para formatar a data
 function formatarData($data) {
     if ($data) {
         $timestamp = strtotime($data);
         return date('d/m/Y', $timestamp);
     }
-    return ''; // Or some other default value
+    return '';
 }
 ?>
