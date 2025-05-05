@@ -115,7 +115,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 <?php else: ?>
                     <?php foreach ($emails as $email): ?>
-                        ?>
                         <a href="<?php echo htmlspecialchars("?id={$email['id']}"); ?>" class="text-decoration-none">
                             <div class="email-item <?php echo ($emailSelecionado && $emailSelecionado['id'] == $email['id']) ? 'active' : ''; ?>">
                                 <div class="d-flex justify-content-between align-items-start">
